@@ -51,7 +51,6 @@ const Navbar = () => {
 </svg>
                 </NavIcon>
                 <NavItem>
-                    
                     A 가공 업체 
                 </NavItem>
                 <NavItem>
