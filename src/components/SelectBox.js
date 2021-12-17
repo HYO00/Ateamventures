@@ -10,7 +10,8 @@ const DropdownList = styled.div`
 `;
 const Dropdown = styled.div`
   width: 120px;
-  margin: 40px 4px;
+  margin: 40px 4px 0;
+
   &:hover ${DropdownList} {
     opacity: 1;
     visibility: visible;
@@ -45,7 +46,7 @@ const Input = styled.input`
 
 //const MATERIAL = [알루미늄, 탄소강, 구리, 합금강, 강철];
 
-const SelectBox = ({ filter }) => {
+const SelectBox = ({ filter, handleOnchange }) => {
   return (
     <>
       <SelectContainer>
@@ -66,11 +67,15 @@ const SelectBox = ({ filter }) => {
             <Material>
               {filter.item &&
                 filter.item.map((el, idx) => {
-                  console.log(el);
+                  // console.log(el);
                   return (
                     <List>
                       <label htmlFor={idx}>
-                        <Input type="checkbox" />
+                        <Input
+                          type="checkbox"
+                          value={el}
+                          onChange={(e) => handleOnchange(e, idx)}
+                        />
                         {el}
                       </label>
                     </List>
