@@ -9,6 +9,7 @@ const RequestContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   margin: 0 auto;
+  padding: 20px;
   max-width: 1280px;
 `;
 const RequestH1 = styled.h2`
@@ -24,14 +25,12 @@ const RequestCardWraaper = styled.div`
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   grid-gap: 16px;
-  padding: 0 50px;
+
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr 1fr;
-    padding: 0 20px;
   }
   @media screen and (max-width: 480px) {
     grid-template-columns: 1fr;
-    padding: 0 20px;
   }
 `;
 
@@ -96,7 +95,7 @@ function Request() {
         <RequestCardWraaper>
           {data &&
             data.map((card, idx) => {
-              return <RequestCard />;
+              return <RequestCard card={card} key={idx} />;
             })}
         </RequestCardWraaper>
       </RequestContainer>
