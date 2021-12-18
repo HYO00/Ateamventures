@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-const SelectContainer = styled.div``;
+const SelectContainer = styled.div`
+  z-index: 100;
+`;
 const DropdownList = styled.div`
   border-radius: 4px;
   margin-top: 4px;
@@ -28,11 +30,14 @@ const Dropdowncontent = styled.div`
   border-radius: 4px;
   border: 1px solid #090909;
   font-size: 14px;
+  background-color: white;
   cursor: pointer;
 `;
 
 const Material = styled.ul`
   border: solid 1px black;
+  border-radius: 4px;
+  background: #fff;
 `;
 
 const List = styled.li`
@@ -46,13 +51,20 @@ const Input = styled.input`
 
 //const MATERIAL = [알루미늄, 탄소강, 구리, 합금강, 강철];
 
-const SelectBox = ({ filter, handleOnchange }) => {
+const SelectBox = ({ filter, handleOnchange, selectItem }) => {
   return (
     <>
       <SelectContainer>
         <Dropdown>
           <Dropdowncontent>
-            <span>{filter.name}</span>
+            {filter.name === "재료" && selectItem > 0 ? (
+              <span>
+                {filter.name}({selectItem})
+              </span>
+            ) : (
+              <span>{filter.name}</span>
+            )}
+
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="10"

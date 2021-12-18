@@ -2,10 +2,11 @@ import React from "react";
 import styled from "styled-components";
 
 const ToggleContainer = styled.div`
-
+  display: flex;
+`;
+const ToggleWrapper = styled.div`
   position: relative;
-  margin-top: 3.5rem;
-  left: 50%;
+  margin-right: 10px;
   cursor: pointer;
   > .toggle-container {
     width: 46px;
@@ -40,13 +41,13 @@ const Toggle = ({ isOn, setIsOn }) => {
   };
 
   return (
-    <div>
-      <ToggleContainer>상담 중인 요청만 보기</ToggleContainer>
-      <ToggleContainer onClick={toggleHandelr}>
+    <ToggleContainer>
+      <ToggleWrapper onClick={toggleHandelr}>
         <div className={`toggle-container ${isOn ? "toggle--checked" : ""}`} />
         <div className={`toggle-circle ${isOn ? "toggle--checked" : ""}`} />
-      </ToggleContainer>
-    </div>
+      </ToggleWrapper>
+      <p>상담 중인 요청만 보기</p>
+    </ToggleContainer>
   );
 };
 
