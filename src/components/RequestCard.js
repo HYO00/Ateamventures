@@ -10,7 +10,6 @@ const RequestCardContainer = styled.div`
   width: 366px;
   height: 356px;
   padding: 24px 16px;
-
   &:hover {
     border: 2px solid #2196f3;
   }
@@ -81,14 +80,10 @@ const RequestView = styled.button`
   cursor: pointer;
 `;
 
-const RequestChat = styled.button`
-  padding: 8px 14px;
+const RequestChat = styled(RequestView)`
   background-color: #fff;
   border: 1px solid #2196f3;
-  border-radius: 4px;
   color: #2196f3;
-  font-size: 14px;
-  cursor: pointer;
 `;
 
 const RequestCard = ({ card }) => {

@@ -3,6 +3,7 @@ import axios from "axios";
 import styled from "styled-components";
 import SelectBox from "../components/SelectBox";
 import RequestCard from "../components/RequestCard";
+import Toggle from "../components/Toggle";
 
 const RequestContainer = styled.div`
   display: flex;
@@ -34,8 +35,19 @@ const RequestCardWraaper = styled.div`
   }
 `;
 
+const NoRquest = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 40px;
+  border: 1px solid #c2c2c2;
+  border-radius: 4px;
+`;
+
 function Request() {
   const [data, setData] = useState([]);
+  const [isOn, setIsOn] = useState(false);
   const [filteredItem, setFilterdItem] = useState([]);
   useEffect(() => {
     const getData = async () => {
@@ -45,16 +57,7 @@ function Request() {
       setData(result.data);
     };
     getData();
-    select();
   }, []);
-  // console.log(data, "data");
-  const select = () => {
-    let a = data.filter((el) => {
-      console.log(el.method);
-      return el.method.includes("밀링");
-    });
-    setData(a);
-  };
 
   const handleOnchange = (e, idx) => {
     console.log(e.target.value, e.currentTarget.checked);
@@ -91,13 +94,27 @@ function Request() {
               handleOnchange={handleOnchange}
             />
           ))}
+          <Toggle isOn={isOn} setIsOn={setIsOn} />
         </FilterBox>
-        <RequestCardWraaper>
-          {data &&
-            data.map((card, idx) => {
-              return <RequestCard card={card} key={idx} />;
-            })}
-        </RequestCardWraaper>
+        {data.length === 0 ? (
+          <NoRquest>
+            <p>조건에 맞는 견적 요청이 없습니다.</p>
+          </NoRquest>
+        ) : (
+          <>
+            <RequestCardWraaper>
+              {isOn
+                ? data
+                    .filter((card) => card.status === "상담중")
+                    .map((card, idx) => {
+                      return <RequestCard card={card} key={idx} />;
+                    })
+                : data.map((card, idx) => {
+                    return <RequestCard card={card} key={idx} />;
+                  })}
+            </RequestCardWraaper>
+          </>
+        )}
       </RequestContainer>
     </div>
   );
