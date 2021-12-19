@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const ToggleContainer = styled.div`
   display: flex;
+  padding-top: 60px;
 `;
 const ToggleWrapper = styled.div`
   position: relative;
