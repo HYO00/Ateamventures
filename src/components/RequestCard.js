@@ -102,7 +102,11 @@ const RequestCard = ({ card }) => {
       <RequestContents>
         <ContentBox>
           <DetailTitle>도면개수</DetailTitle>
-          <DetailValue>{card.count}</DetailValue>
+          {card.docs > 0 ? (
+            <DetailValue>{card.docs}</DetailValue>
+          ) : (
+            <DetailValue>{card.count}</DetailValue>
+          )}
         </ContentBox>
         <ContentBox>
           <DetailTitle>총 수량</DetailTitle>
@@ -112,9 +116,9 @@ const RequestCard = ({ card }) => {
           <DetailTitle>가공방식</DetailTitle>
           {card.method.map((el, idx, arr) => {
             return idx !== arr.length - 1 ? (
-              <DetailValue>{el},</DetailValue>
+              <DetailValue key={idx}>{el},</DetailValue>
             ) : (
-              <DetailValue>{el}</DetailValue>
+              <DetailValue key={idx}>{el}</DetailValue>
             );
           })}
         </ContentBox>
@@ -122,9 +126,9 @@ const RequestCard = ({ card }) => {
           <DetailTitle>재료</DetailTitle>
           {card.material.map((el, idx, arr) => {
             return idx !== arr.length - 1 ? (
-              <DetailValue>{el},</DetailValue>
+              <DetailValue key={idx}>{el},</DetailValue>
             ) : (
-              <DetailValue>{el}</DetailValue>
+              <DetailValue key={idx}>{el}</DetailValue>
             );
           })}
         </ContentBox>

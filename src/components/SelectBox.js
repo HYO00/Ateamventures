@@ -51,15 +51,23 @@ const Input = styled.input`
 
 //const MATERIAL = [알루미늄, 탄소강, 구리, 합금강, 강철];
 
-const SelectBox = ({ filter, handleOnchange, selectItem }) => {
+const SelectBox = ({
+  filter,
+  handleOnchange,
+  selectMaterial,
+  selectMethod,
+  isCheck,
+}) => {
+  //console.log(selectMethod, "mnui");
+
   return (
     <>
       <SelectContainer>
         <Dropdown>
           <Dropdowncontent>
-            {filter.name === "재료" && selectItem > 0 ? (
+            {filter.name === "재료" && selectMaterial.length > 0 ? (
               <span>
-                {filter.name}({selectItem})
+                {filter.name}({selectMaterial.length})
               </span>
             ) : (
               <span>{filter.name}</span>
@@ -79,13 +87,20 @@ const SelectBox = ({ filter, handleOnchange, selectItem }) => {
             <Material>
               {filter.item &&
                 filter.item.map((el, idx) => {
-                  // console.log(el);
                   return (
-                    <List>
+                    <List key={idx}>
                       <label htmlFor={idx}>
                         <Input
                           type="checkbox"
                           value={el}
+                          checked={
+                            !isCheck
+                              ? false
+                              : selectMaterial.includes(el) ||
+                                selectMethod.includes(el)
+                              ? true
+                              : false
+                          }
                           onChange={(e) => handleOnchange(e, idx)}
                         />
                         {el}

@@ -67,8 +67,11 @@ const NoRquest = styled.div`
 function Request() {
   const [data, setData] = useState([]);
   const [isOn, setIsOn] = useState(false);
+  const [isCheck, setIsCheck] = useState(false);
   const [filteredItem, setFilterdItem] = useState([]);
-  const [selectItem, setSelectItem] = useState(0);
+  const [selectMethod, setSelectMethod] = useState([]);
+  const [selectMaterial, setSelectMaterial] = useState([]);
+
   useEffect(() => {
     const getData = async () => {
       const result = await axios.get("http://localhost:4000/requests", {
@@ -79,16 +82,38 @@ function Request() {
     };
     getData();
   }, []);
-  let selectNum = 0;
-  const handleOnchange = (e, idx) => {
-    console.log(e.target.value, e.currentTarget.checked, selectNum);
 
+  const FILTER = [
+    { id: "1", name: "가공방식", method: "가공방식", item: ["밀링", "선반"] },
+    {
+      id: "2",
+      name: "재료",
+      material: "재료",
+      item: ["알루미늄", "탄소강", "구리", "합금강", "강철", "스테인리스강"],
+    },
+  ];
+
+  const handleOnchange = (e, idx) => {
+    // console.log(e.target.value, e.currentTarget.checked, FILTER[1].item);
     if (e.currentTarget.checked) {
-      selectNum = +1;
-      setSelectItem(selectNum);
-    } else {
-      selectItem = -1;
-      setSelectItem(selectNum);
+      setIsCheck(true);
+    }
+
+    if (
+      FILTER[1].item.includes(e.target.value) &&
+      !selectMaterial.includes(e.target.value)
+    ) {
+      let filterdMaterial = FILTER[1].item.filter(
+        (el) => el === e.target.value
+      );
+      setSelectMaterial([...selectMaterial, ...filterdMaterial]);
+      console.log("select", selectMaterial);
+    } else if (
+      FILTER[0].item.includes(e.target.value) &&
+      !selectMethod.includes(e.target.value)
+    ) {
+      let filterdMethod = FILTER[0].item.filter((el) => el === e.target.value);
+      setSelectMethod([...selectMethod, ...filterdMethod]);
     }
 
     let filterd = filteredItem.filter((el) => {
@@ -97,24 +122,17 @@ function Request() {
         el.material.includes(e.target.value)
       );
     });
+
     setFilterdItem(filterd);
-    console.log(filterd, "data");
   };
 
-  const handleResetBtn = (e) => {
-    console.log(e);
+  const handleResetBtn = () => {
     setFilterdItem(data);
+    setSelectMaterial([]);
+    setSelectMethod([]);
+    setIsCheck(false);
   };
 
-  const FILTER = [
-    { id: "1", name: "가공방식", method: "가공방식", item: ["밀링", "선반"] },
-    {
-      id: "2",
-      name: "재료",
-      material: "재료",
-      item: ["알루미늄", "탄소강", "구리", "합금강", "강철"],
-    },
-  ];
   return (
     <div>
       <RequestContainer>
@@ -122,17 +140,22 @@ function Request() {
         <p>파트너님에게 딱 맞는 요청서를 찾아보세요.</p>
         <FilterBox>
           <SelectWrapper>
-            {FILTER.map((ele, idx) => (
-              <SelectBox
-                filter={ele}
-                key={ele.id}
-                handleOnchange={handleOnchange}
-                selectItem={selectItem}
-              />
-            ))}
+            {FILTER.map((ele, idx) => {
+              return (
+                <SelectBox
+                  key={ele.id}
+                  filter={ele}
+                  isCheck={isCheck}
+                  handleOnchange={handleOnchange}
+                  selectMaterial={selectMaterial}
+                  selectMethod={selectMethod}
+                />
+              );
+            })}
+
             {filteredItem.length < 6 ? (
               <>
-                <ResetBtn onClick={(e) => handleResetBtn(e)}>
+                <ResetBtn onClick={handleResetBtn}>
                   <svg
                     width="16"
                     height="16"
