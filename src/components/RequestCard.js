@@ -13,6 +13,10 @@ const RequestCardContainer = styled.div`
   &:hover {
     border: 2px solid #2196f3;
   }
+  @media screen and (max-width: 768px) {
+    width: 320px;
+    height: 360px;
+  }
   @media screen and (max-width: 480px) {
     width: 320px;
     height: 360px;
