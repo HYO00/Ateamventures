@@ -32,10 +32,6 @@ const SelectWrapper = styled.div`
   align-item: center;
 `;
 
-const ResetBtnBox = styled.div`
-  display: flex;
-`;
-
 const ResetBtn = styled.button`
   background: #fff;
   border-style: none;
@@ -43,7 +39,9 @@ const ResetBtn = styled.button`
   cursor: pointer;
 
   @media screen and (max-width: 480px) {
-    margin-bottom: 190px;
+    position: absolute;
+    left: 21em;
+    top: 18em;
   }
 `;
 const RequestCardBox = styled.div`
