@@ -8,7 +8,7 @@ import Toggle from "../components/Toggle";
 const RequestContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: cneter;
   margin: 0 auto;
   padding: 20px;
   max-width: 1280px;
