@@ -5,18 +5,16 @@ const SelectContainer = styled.div`
   z-index: 100;
 `;
 const DropdownList = styled.div`
+  display: none;
   border-radius: 4px;
   margin-top: 4px;
-  opacity: 0;
-  visibility: hidden;
 `;
 const Dropdown = styled.div`
   width: 120px;
   margin: 40px 4px 0;
 
   &:hover ${DropdownList} {
-    opacity: 1;
-    visibility: visible;
+    display: block;
   }
 `;
 
@@ -32,6 +30,10 @@ const Dropdowncontent = styled.div`
   font-size: 14px;
   background-color: white;
   cursor: pointer;
+  &.selected {
+    background: #2296f3;
+    color: #fff;
+  }
 `;
 
 const Material = styled.ul`
@@ -64,7 +66,13 @@ const SelectBox = ({
     <>
       <SelectContainer>
         <Dropdown>
-          <Dropdowncontent>
+          <Dropdowncontent
+            className={
+              filter.name === "재료" && selectMaterial.length > 0
+                ? "selected"
+                : ""
+            }
+          >
             {filter.name === "재료" && selectMaterial.length > 0 ? (
               <span>
                 {filter.name}({selectMaterial.length})

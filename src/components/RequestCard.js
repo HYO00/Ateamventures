@@ -7,11 +7,15 @@ const RequestCardContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  width: 366px;
-  height: 356px;
+  width: 400px;
+  height: 360px;
   padding: 24px 16px;
   &:hover {
     border: 2px solid #2196f3;
+  }
+  @media screen and (max-width: 480px) {
+    width: 320px;
+    height: 360px;
   }
 `;
 

@@ -22,6 +22,9 @@ const FilterBox = styled.div`
   justify-content: space-between;
   align-item: center;
   height: 126px;
+  @media screen and (max-width: 480px) {
+    display: inline-block;
+  }
 `;
 
 const SelectWrapper = styled.div`
@@ -38,6 +41,18 @@ const ResetBtn = styled.button`
   border-style: none;
   margin-left: 12px;
   cursor: pointer;
+
+  @media screen and (max-width: 480px) {
+    margin-bottom: 190px;
+  }
+`;
+const RequestCardBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 1280px;
 `;
 
 const RequestCardWraaper = styled.div`
@@ -183,7 +198,7 @@ function Request() {
             <p>조건에 맞는 견적 요청이 없습니다.</p>
           </NoRquest>
         ) : (
-          <>
+          <RequestCardBox>
             <RequestCardWraaper>
               {isOn
                 ? filteredItem
@@ -195,7 +210,7 @@ function Request() {
                     return <RequestCard card={card} key={idx} />;
                   })}
             </RequestCardWraaper>
-          </>
+          </RequestCardBox>
         )}
       </RequestContainer>
     </div>

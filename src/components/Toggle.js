@@ -4,6 +4,10 @@ import styled from "styled-components";
 const ToggleContainer = styled.div`
   display: flex;
   padding-top: 60px;
+  @media screen and (max-width: 480px) {
+    position: absolute;
+    top: 230px;
+  }
 `;
 const ToggleWrapper = styled.div`
   position: relative;
