@@ -109,7 +109,6 @@ function Request() {
   ];
 
   const handleOnchange = (e, idx) => {
-    // console.log(e.target.value, e.currentTarget.checked, FILTER[1].item);
     if (e.currentTarget.checked) {
       setIsCheck(true);
     }
@@ -122,7 +121,6 @@ function Request() {
         (el) => el === e.target.value
       );
       setSelectMaterial([...selectMaterial, ...filterdMaterial]);
-      console.log("select", selectMaterial);
     } else if (
       FILTER[0].item.includes(e.target.value) &&
       !selectMethod.includes(e.target.value)
