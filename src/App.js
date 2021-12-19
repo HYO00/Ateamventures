@@ -1,13 +1,20 @@
-import './App.css';
-import Navbar from './components/Navbar';
-import Request from './pages/Request';
+import "./App.css";
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
+import Request from "./pages/Request";
 
 function App() {
+  const [isToggle, SetIsToggle] = useState(false);
+
+  const toggleHandler = () => {
+    SetIsToggle(!isToggle);
+  };
   return (
     <div className="App">
-      <Navbar />
+      <Sidebar isToggle={isToggle} toggleHandler={toggleHandler} />
+      <Navbar toggleHandler={toggleHandler} />
       <Request />
-     
     </div>
   );
 }

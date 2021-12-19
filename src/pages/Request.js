@@ -3,6 +3,7 @@ import axios from "axios";
 import styled from "styled-components";
 import SelectBox from "../components/SelectBox";
 import RequestCard from "../components/RequestCard";
+import Toggle from "../components/Toggle";
 
 const RequestContainer = styled.div`
   display: flex;
@@ -18,6 +19,40 @@ const RequestH1 = styled.h2`
 const FilterBox = styled.div`
   display: flex;
   flex-direcion: row;
+  justify-content: space-between;
+  align-item: center;
+  height: 126px;
+  @media screen and (max-width: 480px) {
+    display: inline-block;
+  }
+`;
+
+const SelectWrapper = styled.div`
+  display: flex;
+  align-item: center;
+`;
+
+const ResetBtnBox = styled.div`
+  display: flex;
+`;
+
+const ResetBtn = styled.button`
+  background: #fff;
+  border-style: none;
+  margin-left: 12px;
+  cursor: pointer;
+
+  @media screen and (max-width: 480px) {
+    margin-bottom: 190px;
+  }
+`;
+const RequestCardBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 1280px;
 `;
 
 const RequestCardWraaper = styled.div`
@@ -34,40 +69,34 @@ const RequestCardWraaper = styled.div`
   }
 `;
 
+const NoRquest = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 40px;
+  border: 1px solid #c2c2c2;
+  border-radius: 4px;
+`;
+
 function Request() {
   const [data, setData] = useState([]);
+  const [isOn, setIsOn] = useState(false);
+  const [isCheck, setIsCheck] = useState(false);
   const [filteredItem, setFilterdItem] = useState([]);
+  const [selectMethod, setSelectMethod] = useState([]);
+  const [selectMaterial, setSelectMaterial] = useState([]);
+
   useEffect(() => {
     const getData = async () => {
       const result = await axios.get("http://localhost:4000/requests", {
         withCredentials: true,
       });
       setData(result.data);
+      setFilterdItem(result.data);
     };
     getData();
-    select();
   }, []);
-  // console.log(data, "data");
-  const select = () => {
-    let a = data.filter((el) => {
-      console.log(el.method);
-      return el.method.includes("밀링");
-    });
-    setData(a);
-  };
-
-  const handleOnchange = (e, idx) => {
-    console.log(e.target.value, e.currentTarget.checked);
-
-    let filterd = data.filter((el) => {
-      return (
-        el.method.includes(e.target.value) ||
-        el.material.includes(e.target.value)
-      );
-    });
-    setData(filterd);
-    console.log(filterd, "data");
-  };
 
   const FILTER = [
     { id: "1", name: "가공방식", method: "가공방식", item: ["밀링", "선반"] },
@@ -75,29 +104,112 @@ function Request() {
       id: "2",
       name: "재료",
       material: "재료",
-      item: ["알루미늄", "탄소강", "구리", "합금강", "강철"],
+      item: ["알루미늄", "탄소강", "구리", "합금강", "강철", "스테인리스강"],
     },
   ];
+
+  const handleOnchange = (e, idx) => {
+    if (e.currentTarget.checked) {
+      setIsCheck(true);
+    }
+
+    if (
+      FILTER[1].item.includes(e.target.value) &&
+      !selectMaterial.includes(e.target.value)
+    ) {
+      let filterdMaterial = FILTER[1].item.filter(
+        (el) => el === e.target.value
+      );
+      setSelectMaterial([...selectMaterial, ...filterdMaterial]);
+    } else if (
+      FILTER[0].item.includes(e.target.value) &&
+      !selectMethod.includes(e.target.value)
+    ) {
+      let filterdMethod = FILTER[0].item.filter((el) => el === e.target.value);
+      setSelectMethod([...selectMethod, ...filterdMethod]);
+    }
+
+    let filterd = filteredItem.filter((el) => {
+      return (
+        el.method.includes(e.target.value) ||
+        el.material.includes(e.target.value)
+      );
+    });
+
+    setFilterdItem(filterd);
+  };
+
+  const handleResetBtn = () => {
+    setFilterdItem(data);
+    setSelectMaterial([]);
+    setSelectMethod([]);
+    setIsCheck(false);
+  };
+
   return (
     <div>
       <RequestContainer>
         <RequestH1>들어온 요청</RequestH1>
         <p>파트너님에게 딱 맞는 요청서를 찾아보세요.</p>
         <FilterBox>
-          {FILTER.map((ele, idx) => (
-            <SelectBox
-              filter={ele}
-              key={ele.id}
-              handleOnchange={handleOnchange}
-            />
-          ))}
-        </FilterBox>
-        <RequestCardWraaper>
-          {data &&
-            data.map((card, idx) => {
-              return <RequestCard card={card} key={idx} />;
+          <SelectWrapper>
+            {FILTER.map((ele, idx) => {
+              return (
+                <SelectBox
+                  key={ele.id}
+                  filter={ele}
+                  isCheck={isCheck}
+                  handleOnchange={handleOnchange}
+                  selectMaterial={selectMaterial}
+                  selectMethod={selectMethod}
+                />
+              );
             })}
-        </RequestCardWraaper>
+
+            {filteredItem.length < 6 ? (
+              <>
+                <ResetBtn onClick={handleResetBtn}>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13.645 2.35C12.195 0.9 10.205 0 7.995 0C3.575 0 0.00500488 3.58 0.00500488 8C0.00500488 12.42 3.575 16 7.995 16C11.725 16 14.835 13.45 15.725 10H13.645C12.825 12.33 10.605 14 7.995 14C4.685 14 1.995 11.31 1.995 8C1.995 4.69 4.685 2 7.995 2C9.655 2 11.135 2.69 12.215 3.78L8.995 7H15.995V0L13.645 2.35Z"
+                      fill="#2196F3"
+                    />
+                  </svg>
+                  필터링 리셋
+                </ResetBtn>
+              </>
+            ) : null}
+          </SelectWrapper>
+
+          <SelectWrapper>
+            <Toggle isOn={isOn} setIsOn={setIsOn} />
+          </SelectWrapper>
+        </FilterBox>
+        {filteredItem.length === 0 ? (
+          <NoRquest>
+            <p>조건에 맞는 견적 요청이 없습니다.</p>
+          </NoRquest>
+        ) : (
+          <RequestCardBox>
+            <RequestCardWraaper>
+              {isOn
+                ? filteredItem
+                    .filter((card) => card.status === "상담중")
+                    .map((card, idx) => {
+                      return <RequestCard card={card} key={idx} />;
+                    })
+                : filteredItem.map((card, idx) => {
+                    return <RequestCard card={card} key={idx} />;
+                  })}
+            </RequestCardWraaper>
+          </RequestCardBox>
+        )}
       </RequestContainer>
     </div>
   );

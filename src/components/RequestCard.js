@@ -7,12 +7,19 @@ const RequestCardContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  width: 366px;
-  height: 356px;
+  width: 400px;
+  height: 360px;
   padding: 24px 16px;
-
   &:hover {
     border: 2px solid #2196f3;
+  }
+  @media screen and (max-width: 768px) {
+    width: 320px;
+    height: 360px;
+  }
+  @media screen and (max-width: 480px) {
+    width: 320px;
+    height: 360px;
   }
 `;
 
@@ -81,14 +88,10 @@ const RequestView = styled.button`
   cursor: pointer;
 `;
 
-const RequestChat = styled.button`
-  padding: 8px 14px;
+const RequestChat = styled(RequestView)`
   background-color: #fff;
   border: 1px solid #2196f3;
-  border-radius: 4px;
   color: #2196f3;
-  font-size: 14px;
-  cursor: pointer;
 `;
 
 const RequestCard = ({ card }) => {
@@ -107,7 +110,11 @@ const RequestCard = ({ card }) => {
       <RequestContents>
         <ContentBox>
           <DetailTitle>도면개수</DetailTitle>
-          <DetailValue>{card.count}</DetailValue>
+          {card.docs > 0 ? (
+            <DetailValue>{card.docs}</DetailValue>
+          ) : (
+            <DetailValue>{card.count}</DetailValue>
+          )}
         </ContentBox>
         <ContentBox>
           <DetailTitle>총 수량</DetailTitle>
@@ -117,9 +124,9 @@ const RequestCard = ({ card }) => {
           <DetailTitle>가공방식</DetailTitle>
           {card.method.map((el, idx, arr) => {
             return idx !== arr.length - 1 ? (
-              <DetailValue>{el},</DetailValue>
+              <DetailValue key={idx}>{el},</DetailValue>
             ) : (
-              <DetailValue>{el}</DetailValue>
+              <DetailValue key={idx}>{el}</DetailValue>
             );
           })}
         </ContentBox>
@@ -127,9 +134,9 @@ const RequestCard = ({ card }) => {
           <DetailTitle>재료</DetailTitle>
           {card.material.map((el, idx, arr) => {
             return idx !== arr.length - 1 ? (
-              <DetailValue>{el},</DetailValue>
+              <DetailValue key={idx}>{el},</DetailValue>
             ) : (
-              <DetailValue>{el}</DetailValue>
+              <DetailValue key={idx}>{el}</DetailValue>
             );
           })}
         </ContentBox>
